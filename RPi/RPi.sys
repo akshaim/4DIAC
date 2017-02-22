@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE System SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd">
+<System Name="RPi">
+  <VersionInfo Author="Author" Organization="4DIAC-Consortium" Version="1.0"/>
+  <Application Name="Blink">
+    <SubAppNetwork>
+      <FB Name="E_CYCLE" Type="E_CYCLE" x="855.0" y="380.0">
+        <Parameter Name="DT" Value="t#2000ms"/>
+      </FB>
+      <FB Name="E_SR" Type="E_SR" x="3135.0" y="665.0"/>
+      <FB Name="QX" Type="QX" x="4180.0" y="285.0">
+        <Parameter Name="QI" Value="true"/>
+        <Parameter Name="PARAMS" Value="3"/>
+      </FB>
+      <FB Name="E_SWITCH" Type="E_SWITCH" x="1615.0" y="760.0"/>
+      <FB Name="E_DELAY" Type="E_DELAY" x="2280.0" y="1045.0">
+        <Parameter Name="DT" Value="t#200ms"/>
+      </FB>
+      <FB Name="START_BUTTON_LED" Type="IN_EVENT" x="-570.0" y="380.0">
+        <Parameter Name="QI" Value="1"/>
+        <Parameter Name="LABEL" Value="Start"/>
+      </FB>
+      <FB Name="STOP_BUTTON_LED" Type="IN_EVENT" x="-570.0" y="1235.0">
+        <Parameter Name="QI" Value="1"/>
+        <Parameter Name="LABEL" Value="Stop"/>
+      </FB>
+      <EventConnections>
+        <Connection Destination="QX.REQ" Source="E_SR.EO" dx1="0.0" dx2="0.0" dy="0.0"/>
+        <Connection Destination="E_SWITCH.EI" Source="E_CYCLE.EO" dx1="0.0" dx2="0.0" dy="0.0"/>
+        <Connection Destination="E_SR.S" Source="E_SWITCH.EO0" dx1="0.0" dx2="0.0" dy="0.0"/>
+        <Connection Destination="E_DELAY.START" Source="E_SWITCH.EO1" dx1="0.0" dx2="0.0" dy="0.0"/>
+        <Connection Destination="E_SR.R" Source="E_DELAY.EO" dx1="0.0" dx2="0.0" dy="0.0"/>
+        <Connection Destination="STOP_BUTTON_LED.INIT" Source="START_BUTTON_LED.INITO" dx1="0.0" dx2="0.0" dy="0.0"/>
+        <Connection Destination="E_CYCLE.START" Source="START_BUTTON_LED.IND" dx1="0.0" dx2="0.0" dy="0.0"/>
+        <Connection Destination="E_CYCLE.STOP" Source="STOP_BUTTON_LED.IND" dx1="0.0" dx2="0.0" dy="0.0"/>
+      </EventConnections>
+      <DataConnections>
+        <Connection Destination="QX.OUT" Source="E_SR.Q" dx1="0.0" dx2="0.0" dy="0.0"/>
+        <Connection Destination="E_SWITCH.G" Source="E_SR.Q" dx1="0.0" dx2="0.0" dy="585.0"/>
+      </DataConnections>
+    </SubAppNetwork>
+  </Application>
+  <Device Name="FBRT_WINDOW" Type="FBRT_WINDOW" x="190.0" y="760.0">
+    <Attribute Name="Color" Value="86,217,176"/>
+    <Parameter Name="BOUNDS" Value="[100,100,250,250]"/>
+    <Parameter Name="GRID" Value="[1,1]"/>
+    <Parameter Name="MGR_ID" Value="&quot;localhost:61505&quot;"/>
+    <Resource Name="PANEL_RESOURCE" Type="PANEL_RESOURCE">
+      <FBNetwork>
+        <FB Name="START_BUTTON_LED" Type="IN_EVENT" x="1140.0" y="-95.0">
+          <Parameter Name="QI" Value="1"/>
+          <Parameter Name="LABEL" Value="Start"/>
+        </FB>
+        <FB Name="STOP_BUTTON_LED" Type="IN_EVENT" x="1710.0" y="760.0">
+          <Parameter Name="QI" Value="1"/>
+          <Parameter Name="LABEL" Value="Stop"/>
+        </FB>
+        <FB Name="START_LED" Type="CLIENT_0" x="2470.0" y="-95.0">
+          <Parameter Name="QI" Value="1"/>
+          <Parameter Name="ID" Value="192.168.1.196:61500"/>
+        </FB>
+        <FB Name="STOP_LED" Type="CLIENT_0" x="3040.0" y="760.0">
+          <Parameter Name="QI" Value="1"/>
+          <Parameter Name="ID" Value="192.168.1.196:61501"/>
+        </FB>
+        <EventConnections>
+          <Connection Destination="START_BUTTON_LED.INIT" Source="START.COLD" dx1="0.0" dx2="0.0" dy="0.0"/>
+          <Connection Destination="START_BUTTON_LED.INIT" Source="START.WARM" dx1="0.0" dx2="0.0" dy="0.0"/>
+          <Connection Destination="STOP_BUTTON_LED.INIT" Source="START_BUTTON_LED.INITO" dx1="0.0" dx2="0.0" dy="0.0"/>
+          <Connection Destination="START_LED.INIT" Source="STOP_BUTTON_LED.INITO" dx1="0.0" dx2="0.0" dy="0.0"/>
+          <Connection Destination="STOP_LED.INIT" Source="START_LED.INITO" dx1="0.0" dx2="0.0" dy="0.0"/>
+          <Connection Destination="START_LED.REQ" Source="START_BUTTON_LED.IND" dx1="0.0" dx2="0.0" dy="0.0"/>
+          <Connection Destination="STOP_LED.REQ" Source="STOP_BUTTON_LED.IND" dx1="0.0" dx2="0.0" dy="0.0"/>
+        </EventConnections>
+      </FBNetwork>
+    </Resource>
+  </Device>
+  <Device Name="RaspberryPI" Type="RaspberryPI" x="2565.0" y="855.0">
+    <Attribute Name="Color" Value="207,107,40"/>
+    <Parameter Name="MGR_ID" Value="&quot;192.168.1.196:61499&quot;"/>
+    <Resource Name="EMB_RES" Type="EMB_RES">
+      <FBNetwork>
+        <FB Name="E_CYCLE" Type="E_CYCLE" x="665.0" y="760.0">
+          <Parameter Name="DT" Value="t#2000ms"/>
+        </FB>
+        <FB Name="E_SR" Type="E_SR" x="2090.0" y="760.0"/>
+        <FB Name="QX" Type="QX" x="2850.0" y="380.0">
+          <Parameter Name="QI" Value="true"/>
+          <Parameter Name="PARAMS" Value="3"/>
+        </FB>
+        <FB Name="E_SWITCH" Type="E_SWITCH" x="1330.0" y="760.0"/>
+        <FB Name="E_DELAY" Type="E_DELAY" x="1520.0" y="1520.0">
+          <Parameter Name="DT" Value="t#200ms"/>
+        </FB>
+        <FB Name="START_LED" Type="SERVER_0" x="-380.0" y="855.0">
+          <Parameter Name="QI" Value="1"/>
+          <Parameter Name="ID" Value="localhost:61500"/>
+        </FB>
+        <FB Name="STOP_LED" Type="SERVER_0" x="-380.0" y="1710.0">
+          <Parameter Name="QI" Value="1"/>
+          <Parameter Name="ID" Value="localhost:61501"/>
+        </FB>
+        <EventConnections>
+          <Connection Destination="QX.REQ" Source="E_SR.EO" dx1="0.0" dx2="0.0" dy="0.0"/>
+          <Connection Destination="QX.INIT" Source="START.COLD" dx1="0.0" dx2="0.0" dy="0.0"/>
+          <Connection Destination="QX.INIT" Source="START.WARM" dx1="0.0" dx2="0.0" dy="0.0"/>
+          <Connection Destination="E_SWITCH.EI" Source="E_CYCLE.EO" dx1="0.0" dx2="0.0" dy="0.0"/>
+          <Connection Destination="E_SR.S" Source="E_SWITCH.EO0" dx1="0.0" dx2="0.0" dy="0.0"/>
+          <Connection Destination="E_DELAY.START" Source="E_SWITCH.EO1" dx1="0.0" dx2="0.0" dy="0.0"/>
+          <Connection Destination="E_SR.R" Source="E_DELAY.EO" dx1="0.0" dx2="0.0" dy="0.0"/>
+          <Connection Destination="E_CYCLE.START" Source="START_LED.IND" dx1="0.0" dx2="0.0" dy="0.0"/>
+          <Connection Destination="E_CYCLE.STOP" Source="STOP_LED.IND" dx1="225.0" dx2="0.0" dy="0.0"/>
+          <Connection Destination="START_LED.INIT" Source="START.WARM" dx1="0.0" dx2="0.0" dy="0.0"/>
+          <Connection Destination="START_LED.INIT" Source="START.COLD" dx1="0.0" dx2="0.0" dy="0.0"/>
+          <Connection Destination="STOP_LED.INIT" Source="START_LED.INITO" dx1="0.0" dx2="0.0" dy="0.0"/>
+        </EventConnections>
+        <DataConnections>
+          <Connection Destination="QX.OUT" Source="E_SR.Q" dx1="0.0" dx2="0.0" dy="0.0"/>
+          <Connection Destination="E_SWITCH.G" Source="E_SR.Q" dx1="0.0" dx2="0.0" dy="585.0"/>
+        </DataConnections>
+      </FBNetwork>
+    </Resource>
+  </Device>
+  <Mapping From="Blink.E_CYCLE" To="RaspberryPI.EMB_RES.E_CYCLE"/>
+  <Mapping From="Blink.E_SR" To="RaspberryPI.EMB_RES.E_SR"/>
+  <Mapping From="Blink.QX" To="RaspberryPI.EMB_RES.QX"/>
+  <Mapping From="Blink.E_SWITCH" To="RaspberryPI.EMB_RES.E_SWITCH"/>
+  <Mapping From="Blink.E_DELAY" To="RaspberryPI.EMB_RES.E_DELAY"/>
+  <Mapping From="Blink.START_BUTTON_LED" To="FBRT_WINDOW.PANEL_RESOURCE.START_BUTTON_LED"/>
+  <Mapping From="Blink.STOP_BUTTON_LED" To="FBRT_WINDOW.PANEL_RESOURCE.STOP_BUTTON_LED"/>
+  <Segment Name="Ethernet" Type="Ethernet" dx1="1500.0" x="1995.0" y="285.0"/>
+  <Link CommResource="FBRT_WINDOW" Comment="" SegmentName="Ethernet"/>
+  <Link CommResource="RaspberryPI" Comment="" SegmentName="Ethernet"/>
+</System>
