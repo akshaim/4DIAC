@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE System SYSTEM "http://www.holobloc.com/xml/LibraryElement.dtd">
+<System Name="Raspberry_Pi">
+  <VersionInfo Author="Author" Organization="4DIAC-Consortium" Version="1.0"/>
+  <Application Name="Blink"/>
+  <Device Name="RaspberryPI" Type="RaspberryPI" x="1615.0" y="855.0">
+    <Attribute Name="Color" Value="39,40,233"/>
+    <Parameter Name="MGR_ID" Value="&quot;192.168.1.198:61499&quot;"/>
+    <Resource Name="EMB_RES" Type="EMB_RES"/>
+  </Device>
+</System>
